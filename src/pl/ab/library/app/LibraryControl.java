@@ -1,8 +1,12 @@
 package pl.ab.library.app;
 
-import pl.ab.library.app.exception.NoSuchOptionException;
+import pl.ab.library.exception.DataExportException;
+import pl.ab.library.exception.DataImportException;
+import pl.ab.library.exception.NoSuchOptionException;
 import pl.ab.library.io.ConsolePrinter;
 import pl.ab.library.io.DataReader;
+import pl.ab.library.io.file.FileManager;
+import pl.ab.library.io.file.FileManagerBuilder;
 import pl.ab.library.model.Book;
 import pl.ab.library.model.Library;
 import pl.ab.library.model.Magazine;
@@ -14,9 +18,23 @@ public class LibraryControl {
 
     private ConsolePrinter printer = new ConsolePrinter();
     private DataReader dataReader = new DataReader(printer);
-    private Library library = new Library();
+    private FileManager fileManager;
 
-    public void controlLoop() {
+    private Library library;
+
+    LibraryControl() {
+        fileManager = new FileManagerBuilder(printer, dataReader).build();
+        try {
+            library = fileManager.importData();
+            printer.printLine("Zaimportowano dane z pliku");
+        } catch (DataImportException e) {
+            printer.printLine(e.getMessage());
+            printer.printLine("Zainicjalizowano nową bazę.");
+            library = new Library();
+        }
+    }
+
+    void controlLoop() {
         Option option;
 
         do {
@@ -77,7 +95,13 @@ public class LibraryControl {
     }
 
     private void exit() {
-        System.out.println("Koniec programu.");
+        try {
+            fileManager.exportData(library);
+            printer.printLine("Export danych do pliku zakończony powodzeniem.");
+        } catch (DataExportException e) {
+            printer.printLine(e.getMessage());
+        }
+        printer.printLine("Koniec programu.");
         dataReader.close();
     }
 
@@ -132,7 +156,7 @@ public class LibraryControl {
             return value + " " + description;
         }
 
-        static Option createFromInt(int option) throws NoSuchOptionException{
+        static Option createFromInt(int option) throws NoSuchOptionException {
             try {
                 return Option.values()[option];
             } catch (ArrayIndexOutOfBoundsException e) {

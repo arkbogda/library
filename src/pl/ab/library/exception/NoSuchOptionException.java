@@ -1,4 +1,4 @@
-package pl.ab.library.app.exception;
+package pl.ab.library.exception;
 
 public class NoSuchOptionException extends Exception {
     public NoSuchOptionException(String message) {
