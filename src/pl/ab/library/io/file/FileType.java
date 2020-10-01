@@ -1,5 +1,5 @@
 package pl.ab.library.io.file;
 
 enum FileType {
-    SERIAL
+    SERIAL, CSV
 }

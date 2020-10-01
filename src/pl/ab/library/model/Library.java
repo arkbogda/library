@@ -13,18 +13,10 @@ public class Library implements Serializable {
         for (int i = 0; i < result.length; i++) {
             result[i] = publications[i];
         }
-        return publications;
+        return result;
     }
 
-    public void addBook(Book book) {
-        addPublication(book);
-    }
-
-    public void addMagazine(Magazine magazine) {
-        addPublication(magazine);
-    }
-
-    private void addPublication(Publication publication) {
+    public void addPublication(Publication publication) {
         if (publicationsNumber >= MAX_PUBLICATIONS) {
             throw new ArrayIndexOutOfBoundsException("Max publications exceed " + MAX_PUBLICATIONS);
         }
