@@ -19,7 +19,7 @@ public class Library implements Serializable {
 
     public void addPublication(Publication publication) {
         if (publicationsNumber == publications.length) {
-            Arrays.copyOf(publications, publications.length * 2);
+            publications = Arrays.copyOf(this.publications, publications.length * 2);
         }
         publications[publicationsNumber] = publication;
         publicationsNumber++;
@@ -38,7 +38,7 @@ public class Library implements Serializable {
         }
 
         if (found != notFound) {
-            System.arraycopy(publications, found + 1, publications, found, publications.length - found -1);
+            System.arraycopy(publications, found + 1, publications, found, publications.length - found - 1);
             publicationsNumber--;
             publications[publicationsNumber] = null;
         }
