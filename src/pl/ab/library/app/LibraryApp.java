@@ -1,7 +1,7 @@
 package pl.ab.library.app;
 
 public class LibraryApp {
-    private static final String APP_NAME = "Biblioteka v2.6";
+    private static final String APP_NAME = "Biblioteka v2.7";
 
 
     public static void main(String[] args) {
@@ -9,6 +9,5 @@ public class LibraryApp {
 
         LibraryControl libraryControl = new LibraryControl();
         libraryControl.controlLoop();
-
     }
 }
